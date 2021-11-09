@@ -1,12 +1,18 @@
 ---
-title: "Time"
+title: "EDS 211: Clockify Time Tracking"
 author: "Paloma Cartwright"
-date: "08/11/2021"
-output: html_document
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    code_folding: hide
 ---
 
+# LA County Tree Cover Analysis
+
+### Time Tracking for Paloma Cartwright 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
 ```
 
 ```{r}
