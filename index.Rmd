@@ -9,7 +9,7 @@ output:
 
 # LA County Tree Cover Analysis
 
-## Hello
+## Welcome
 
 ### Time Tracking for Paloma Cartwright 
 
