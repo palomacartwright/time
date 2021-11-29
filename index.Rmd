@@ -9,6 +9,8 @@ output:
 
 # LA County Tree Cover Analysis
 
+## Welcome
+
 ### Time Tracking for Paloma Cartwright 
 
 ```{r setup, include=FALSE}
@@ -176,4 +178,6 @@ datatable(d_task)
 #   datatable() %>%
 #   formatRound(columns=c('duration'), digits=3)
 ```
+
+# Adding this line so that I have something to commit for the github lab
 
