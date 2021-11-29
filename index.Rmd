@@ -13,6 +13,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+library(here)
 ```
 
 ```{r}
@@ -22,34 +23,157 @@ if (!require(librarian)){
   library(librarian)
 }
 librarian::shelf(
-  clockify, dplyr, DT, glue, lubridate, readr, here)
+  bbest/clockify,
+  dplyr, DT, ggplot2,
+  quiet = TRUE)
 
 # CHANGE THESE VARIABLES!
 api_txt <- here("../clockify_api-key.txt")
-project_name <- "iea-auto"
+project_name <- "la-tree"
 
 # use API key to authenticate
 CLOCKIFY_API_KEY <- readLines(api_txt)
 set_api_key(CLOCKIFY_API_KEY)
 
 # get data
-d_projects <- projects() %>% 
-      select(project_id, project_name)
-d_users <- users() %>% 
-      select(user_id, user_name)
-d_times <- time_entries(concise = F) %>% 
-  left_join(
-    d_projects, by = "project_id") %>% 
-  left_join(
-    d_users, by = "user_id")
-
-# show table
-d_times %>% 
+d_times <- time_entries_all()
+table(d_times$project_name) # confirm project_name
+d_times <- d_times %>%
+  filter(
+    project_name == !!"la-tree") %>%
   select(
-    user_name, project_name, 
-    time_start, duration, description) %>% 
-  arrange(user_name, project_name, time_start) %>% 
-  datatable() %>%
-  formatRound(columns=c('duration'), digits=3)
+    task_name, time_start, duration_hrs, 
+    user_name, description) %>% 
+  arrange(task_name, time_start)
+```
+
+
+## la-tree {.tabset}
+
+### Overall
+
+```{r}
+plot_burndown(
+  d_times,
+  beg = as.Date("2021-10-24"), # day before
+  end = as.Date("2021-12-07"), # day after
+  hrs = 80)
+
+# table ALL
+datatable(d_times)
+```
+
+### 1. Import
+
+```{r}
+task <- "Import"
+d_task <- d_times %>% 
+  filter(task_name == !!task)
+plot_burndown(
+  d_task,
+  beg = as.Date("2021-10-24"), # day before
+  end = as.Date("2021-11-08"), # day after
+  hrs = 20)
+
+datatable(d_task)
+```
+
+### 2. Tidy
+
+```{r}
+task <- "Tidy"
+d_task <- d_times %>% 
+  filter(task_name == !!task)
+plot_burndown(
+  d_task,
+  beg = as.Date("2021-10-31"), # day before
+  end = as.Date("2021-11-08"), # day after
+  hrs = 15)
+
+datatable(d_task)
+```
+
+### 3. Transform
+
+```{r}
+task <- "Transform"
+d_task <- d_times %>% 
+  filter(task_name == !!task)
+plot_burndown(
+  d_task,
+  beg = as.Date("2021-11-07"), # day before
+  end = as.Date("2021-11-22"), # day after
+  hrs = 10)
+
+datatable(d_task)
+```
+
+### 4. Visualize
+
+```{r}
+task <- "Visualize"
+d_task <- d_times %>% 
+  filter(task_name == !!task)
+plot_burndown(
+  d_task,
+  beg = as.Date("2021-11-07"), # day before
+  end = as.Date("2021-11-22"), # day after
+  hrs = 15)
+
+datatable(d_task)
+```
+
+### 5. Communicate
+
+```{r}
+task <- "Communicate"
+d_task <- d_times %>% 
+  filter(task_name == !!task)
+plot_burndown(
+  d_task,
+  beg = as.Date("2021-11-14"), # day before
+  end = as.Date("2021-12-07"), # day after
+  hrs = 20)
+
+datatable(d_task)
+```
+
+
+```{r}
+# get libraries
+# if (!require(librarian)){
+#   install.packages("librarian")
+#   library(librarian)
+# }
+# librarian::shelf(
+#   clockify, dplyr, DT, glue, lubridate, readr, here)
+# 
+# # CHANGE THESE VARIABLES!
+# api_txt <- here("../clockify_api-key.txt")
+# project_name <- "iea-auto"
+# 
+# # use API key to authenticate
+# CLOCKIFY_API_KEY <- readLines(api_txt)
+# set_api_key(CLOCKIFY_API_KEY)
+# 
+# # get data
+# d_projects <- projects() %>% 
+#       select(project_id, project_name)
+# d_users <- users() %>% 
+#       select(user_id, user_name)
+# d_times <- time_entries(concise = F) %>% 
+#   left_join(
+#     d_projects, by = "project_id") %>% 
+#   left_join(
+#     d_users, by = "user_id")
+# 
+# # show table
+# d_times %>% 
+#   select(
+#     user_name, project_name, 
+#     time_start, duration, description) %>% 
+#   arrange(user_name, project_name, time_start) %>% 
+#   datatable() %>%
+#   formatRound(columns=c('duration'), digits=3)
 ```
 
