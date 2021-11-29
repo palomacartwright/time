@@ -14,7 +14,7 @@ output:
 ### Time Tracking for Paloma Cartwright 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = T, message=FALSE, warning=FALSE)
 library(here)
 ```
 
@@ -179,5 +179,5 @@ datatable(d_task)
 #   formatRound(columns=c('duration'), digits=3)
 ```
 
-# Adding this line so that I have something to commit for the github lab
+
 
