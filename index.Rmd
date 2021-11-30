@@ -1,5 +1,5 @@
 ---
-title: "EDS 211: Clockify Time Tracking"
+title: "LA County Tree Cover Analysis Time Tracking"
 author: "Paloma Cartwright"
 date: "`r Sys.Date()`"
 output: 
@@ -7,16 +7,49 @@ output:
     code_folding: hide
 ---
 
-# LA County Tree Cover Analysis
-
-## Welcome
-
-### Time Tracking for Paloma Cartwright 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T, message=FALSE, warning=FALSE)
 library(here)
 ```
+
+# Time Tracking for Paloma Cartwright 
+
+```{r}
+# get libraries
+if (!require(librarian)){
+  install.packages("librarian")
+  library(librarian)
+}
+librarian::shelf(
+  clockify, dplyr, DT, glue, lubridate, readr, here)
+# CHANGE THESE VARIABLES!
+api_txt <- here("../clockify_api-key.txt")
+project_name <- "iea-auto"
+# use API key to authenticate
+CLOCKIFY_API_KEY <- readLines(api_txt)
+set_api_key(CLOCKIFY_API_KEY)
+# get data
+d_projects <- projects() %>% 
+      select(project_id, project_name)
+d_users <- users() %>% 
+      select(user_id, user_name)
+d_times <- time_entries(concise = F) %>% 
+  left_join(
+    d_projects, by = "project_id") %>% 
+  left_join(
+    d_users, by = "user_id")
+# show table
+d_times %>% 
+  select(
+    user_name, project_name, 
+    time_start, duration, description) %>% 
+  arrange(user_name, project_name, time_start) %>% 
+  datatable() %>%
+  formatRound(columns=c('duration'), digits=3)
+```
+
+# Time tracking for the entire la-tree team
 
 ```{r}
 # get libraries
@@ -140,44 +173,6 @@ plot_burndown(
 datatable(d_task)
 ```
 
-
-```{r}
-# get libraries
-# if (!require(librarian)){
-#   install.packages("librarian")
-#   library(librarian)
-# }
-# librarian::shelf(
-#   clockify, dplyr, DT, glue, lubridate, readr, here)
-# 
-# # CHANGE THESE VARIABLES!
-# api_txt <- here("../clockify_api-key.txt")
-# project_name <- "iea-auto"
-# 
-# # use API key to authenticate
-# CLOCKIFY_API_KEY <- readLines(api_txt)
-# set_api_key(CLOCKIFY_API_KEY)
-# 
-# # get data
-# d_projects <- projects() %>% 
-#       select(project_id, project_name)
-# d_users <- users() %>% 
-#       select(user_id, user_name)
-# d_times <- time_entries(concise = F) %>% 
-#   left_join(
-#     d_projects, by = "project_id") %>% 
-#   left_join(
-#     d_users, by = "user_id")
-# 
-# # show table
-# d_times %>% 
-#   select(
-#     user_name, project_name, 
-#     time_start, duration, description) %>% 
-#   arrange(user_name, project_name, time_start) %>% 
-#   datatable() %>%
-#   formatRound(columns=c('duration'), digits=3)
-```
 
 
 
