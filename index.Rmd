@@ -87,6 +87,8 @@ d_times <- d_times %>%
 
 ### Overall
 
+The overall project is under budget because it took less hours than we anticipated. You can see this by the grey lines being above the red one. 
+
 ```{r}
 plot_burndown(
   d_times,
@@ -99,6 +101,8 @@ datatable(d_times)
 ```
 
 ### 1. Import
+
+For the import field, it took as many hours as anticipated but we finished quicker than the deadline of November 8th. 
 
 ```{r}
 task <- "Import"
@@ -115,6 +119,8 @@ datatable(d_task)
 
 ### 2. Tidy
 
+The burndown for the Tidy Task starts off with 15 hours and we only used 10 hours total, leaving an excess 5 hours under budget. This task took less time than originally estimated but we finished  within our date predicted.
+
 ```{r}
 task <- "Tidy"
 d_task <- d_times %>% 
@@ -122,13 +128,15 @@ d_task <- d_times %>%
 plot_burndown(
   d_task,
   beg = as.Date("2021-10-31"), # day before
-  end = as.Date("2021-11-08"), # day after
+  end = as.Date("2021-11-09"), # day after
   hrs = 15)
 
 datatable(d_task)
 ```
 
 ### 3. Transform
+
+The burndown for the transform task is under budget. It took us a total of 6 hours out of the estimated 10. We also finished earlier than anticipated on November 16th instead of the 20th.
 
 ```{r}
 task <- "Transform"
@@ -145,6 +153,8 @@ datatable(d_task)
 
 ### 4. Visualize
 
+Visualize task took us over budget for the first time during our project. We used more hours than planned with 18.5 instead of the estimated 15 but we finished on time. 
+
 ```{r}
 task <- "Visualize"
 d_task <- d_times %>% 
@@ -159,6 +169,8 @@ datatable(d_task)
 ```
 
 ### 5. Communicate
+
+Communicate also took us over budget by 15 minutes. We finished on the expected date of December 6th. 
 
 ```{r}
 task <- "Communicate"
